@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml"><variables><variable type="KIND_SpriteKind" id="tp,z_OSOz?f1{(A(|XlF">Player</variable><variable type="KIND_SpriteKind" id="EKmZj!ODH,Js^~T-![!G">Projectile</variable><variable type="KIND_SpriteKind" id="HSZaSk/8TH-0IzRzKVce">Food</variable><variable type="KIND_SpriteKind" id="/nAU1XJ{__Ts)/gsy4[j">Enemy</variable><variable id="_]lY+Gl}z3x,UtE@RWXV">mySprite</variable><variable id="gmY/2gSLMw)[LRLm+a2S">mySprite2</variable><variable id="Ov1iD#[U1COvMHT_.UDf">mySprite3</variable></variables><block type="pxt-on-start" id="Q(~b@%_Xciel0W5EtU^Z" x="0" y="0"><statement name="HANDLER"><block type="variables_set" id="NrKBmqQ/a;X}U^XdAz3C"><field name="VAR" id="Ov1iD#[U1COvMHT_.UDf">mySprite3</field><value name="VALUE"><shadow xmlns="http://www.w3.org/1999/xhtml" type="math_number"><field name="NUM">0</field></shadow><block type="spritescreate" id="}Sy~poKb7ZIhaIhf7lIm"><value name="img"><shadow type="screen_image_picker"><field name="img">img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`</field><data>{"commentRefs":[],"fieldData":{"img":"z#?_QmuC!c/T((7@5~6a"}}</data></shadow><block type="screen_image_picker" id="a~KBSixW;@-t],gnMH+1"><field name="img">assets.image`Spaceship 2`</field><data>{"commentRefs":[],"fieldData":{"img":"}i8HAmYf|JWv[2$*S7Dl"}}</data></block></value><value name="kind"><shadow type="spritekind" id="GCn1KR9F^p*8Y$qw+UGy"><field name="MEMBER">Player</field></shadow></value></block></value><next><block type="variables_set" id="{R[IN%nVs$u}uqA_%$/d"><field name="VAR" id="gmY/2gSLMw)[LRLm+a2S">mySprite2</field><value name="VALUE"><shadow xmlns="http://www.w3.org/1999/xhtml" type="math_number"><field name="NUM">0</field></shadow><block type="spritescreate" id="~-DJJ^lD;U/hW_DFkFQ:"><value name="img"><shadow type="screen_image_picker" id="s5Iyf+L~;(R9x0]c9H3["><field name="img">assets.image`Spaceship 2`</field><data>{"commentRefs":[],"fieldData":{"img":"}i8HAmYf|JWv[2$*S7Dl"}}</data></shadow></value><value name="kind"><shadow type="spritekind" id="x(^o~)h`e(u_T(aHs4Yw"><field name="MEMBER">Player</field></shadow></value></block></value><next><block type="variables_set" id="QdSGix{=Y4%IiJcdSzo#"><field name="VAR" id="_]lY+Gl}z3x,UtE@RWXV">mySprite</field><value name="VALUE"><shadow xmlns="http://www.w3.org/1999/xhtml" type="math_number"><field name="NUM">0</field></shadow><block type="spritescreate" id="q;!M]h0_!i:r]HdkUU/f"><value name="img"><shadow type="screen_image_picker" id="WUnLV6bu6RBe[74,.VXa"><field name="img">assets.image`spaceship`</field><data>{"commentRefs":[],"fieldData":{"img":"kq;xw2PiBtj==O9}+EJz"}}</data></shadow></value><value name="kind"><shadow type="spritekind" id="Fn38j-ci2$k4Zr6=V6:R"><field name="MEMBER">Player</field></shadow></value></block></value><next><block type="particlesStartScreenAnimation" id="+m$hGc]dl,g{/mx~VJP-"><mutation xmlns="http://www.w3.org/1999/xhtml" _expanded="0" _input_init="false"></mutation><field name="effect">effects.starField</field></block></next></block></next></block></next></block></statement></block></xml>
