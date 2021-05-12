@@ -1,7 +1,13 @@
 namespace SpriteKind {
     export const Player2 = SpriteKind.create()
     export const Asteroid = SpriteKind.create()
+    export const MiniRocks = SpriteKind.create()
 }
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.MiniRocks, function (sprite, otherSprite) {
+    otherSprite.destroy(effects.disintegrate, 100)
+    sprite.destroy()
+    info.changeScoreBy(1)
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     ALaser = sprites.createProjectileFromSprite(img`
         ................................
@@ -47,18 +53,29 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Asteroid, function (sprite, 
     if (Math.percentChance(50)) {
         MiniRock = sprites.createProjectileFromSprite(assets.image`MiniAsteriod`, Asteroid, randint(-50, 50), 50)
         MiniRock = sprites.createProjectileFromSprite(assets.image`MiniAsteriod`, Asteroid, randint(-50, 50), 50)
-        MiniRock.setKind(SpriteKind.Asteroid)
+        MiniRock.setKind(SpriteKind.MiniRocks)
         MiniRock.setBounceOnWall(true)
     }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.MiniRocks, function (sprite, otherSprite) {
+    info.changeLifeBy(-1)
+    sprite.startEffect(effects.fountain, 500)
+    otherSprite.destroy(effects.disintegrate, 100)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Asteroid, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
     sprite.startEffect(effects.fountain, 500)
     otherSprite.destroy(effects.disintegrate, 100)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Player, function (sprite, otherSprite) {
+    y = 0
+    x = 0
+})
 sprites.onCreated(SpriteKind.Player, function (sprite) {
     controller.moveSprite(sprite, 100, 100)
 })
+let x = 0
+let y = 0
 let Asteroid: Sprite = null
 let MiniRock: Sprite = null
 let ALaser: Sprite = null
@@ -69,10 +86,10 @@ effects.starField.startScreenEffect()
 info.setScore(0)
 info.setLife(10)
 forever(function () {
-    if (info.score() < 500) {
-        Asteroid = sprites.createProjectileFromSide(assets.image`Asteroid 1`, 0, randint(10, 50))
+    if (info.score() < 50) {
+        Asteroid = sprites.createProjectileFromSide(assets.image`Asteroid 1`, 0, randint(20, 50))
         Asteroid.x = randint(10, 150)
         Asteroid.setKind(SpriteKind.Asteroid)
-        pause(700)
+        pause(500)
     }
 })
