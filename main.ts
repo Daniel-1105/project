@@ -38,29 +38,23 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         ................................
         `, FirstShip, 0, -60)
     ALaser.y += 3
-    pause(500)
+    pause(200)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Asteroid, function (sprite, otherSprite) {
     otherSprite.destroy(effects.disintegrate, 100)
     sprite.destroy()
     info.changeScoreBy(1)
     if (Math.percentChance(50)) {
-        MiniRock = sprites.createProjectileFromSprite(assets.image`MiniAsteriod`, Asteroid, 50, 50)
+        MiniRock = sprites.createProjectileFromSprite(assets.image`MiniAsteriod`, Asteroid, randint(-50, 50), 50)
+        MiniRock = sprites.createProjectileFromSprite(assets.image`MiniAsteriod`, Asteroid, randint(-50, 50), 50)
         MiniRock.setKind(SpriteKind.Asteroid)
+        MiniRock.setBounceOnWall(true)
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Asteroid, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
     sprite.startEffect(effects.fountain, 500)
     otherSprite.destroy(effects.disintegrate, 100)
-})
-sprites.onCreated(SpriteKind.Asteroid, function (sprite) {
-    if (info.score() < 100) {
-        Asteroid = sprites.createProjectileFromSide(assets.image`Asteroid 1`, 0, randint(10, 50))
-        Asteroid.x = randint(10, 150)
-        Asteroid.setKind(SpriteKind.Asteroid)
-        pause(500)
-    }
 })
 sprites.onCreated(SpriteKind.Player, function (sprite) {
     controller.moveSprite(sprite, 100, 100)
@@ -70,6 +64,15 @@ let MiniRock: Sprite = null
 let ALaser: Sprite = null
 let FirstShip: Sprite = null
 FirstShip = sprites.create(assets.image`spaceship`, SpriteKind.Player)
+FirstShip.setStayInScreen(true)
 effects.starField.startScreenEffect()
 info.setScore(0)
 info.setLife(10)
+forever(function () {
+    if (info.score() < 500) {
+        Asteroid = sprites.createProjectileFromSide(assets.image`Asteroid 1`, 0, randint(10, 50))
+        Asteroid.x = randint(10, 150)
+        Asteroid.setKind(SpriteKind.Asteroid)
+        pause(700)
+    }
+})
