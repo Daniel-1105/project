@@ -1,5 +1,9 @@
+namespace SpriteKind {
+    export const Player2 = SpriteKind.create()
+    export const Asteroid = SpriteKind.create()
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    projectile2 = sprites.createProjectileFromSprite(img`
+    ALaser = sprites.createProjectileFromSprite(img`
         ................................
         ................................
         ................................
@@ -10,8 +14,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         ................................
         ................................
         ................................
-        ...........a.......a............
-        ...........a.......a............
+        ...............a................
+        ...............a................
+        ...............a................
         ................................
         ................................
         ................................
@@ -31,20 +36,29 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         ................................
         ................................
         ................................
-        ................................
-        `, mySprite2, 0, -40)
-    projectile2.x += 1
-    projectile2.y += 1
+        `, FirstShip, 0, -40)
+    ALaser.y += 3
     pause(500)
 })
-let projectile2: Sprite = null
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Asteroid, function (sprite, otherSprite) {
+    otherSprite.destroy(effects.disintegrate, 100)
+    sprite.destroy()
+    info.changeScoreBy(1)
+})
+sprites.onCreated(SpriteKind.Player, function (sprite) {
+    controller.moveSprite(sprite, 100, 100)
+})
 let Asteroid: Sprite = null
-let mySprite2: Sprite = null
-mySprite2 = sprites.create(assets.image`Spaceship 3`, SpriteKind.Player)
-controller.moveSprite(mySprite2)
+let ALaser: Sprite = null
+let FirstShip: Sprite = null
 effects.starField.startScreenEffect()
-for (let index = 0; index < 50; index++) {
-    Asteroid = sprites.createProjectileFromSide(assets.image`Asteroid 1`, 0, 30)
-    Asteroid.x = randint(10, 150)
-    pause(900)
-}
+FirstShip = sprites.create(assets.image`spaceship`, SpriteKind.Player)
+info.setScore(0)
+forever(function () {
+    if (info.score() < 20) {
+        Asteroid = sprites.createProjectileFromSide(assets.image`Asteroid 1`, 0, randint(10, 50))
+        Asteroid.x = randint(10, 150)
+        Asteroid.setKind(SpriteKind.Asteroid)
+        pause(500)
+    }
+})
