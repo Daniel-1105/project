@@ -6,7 +6,6 @@ namespace SpriteKind {
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.MiniRocks, function (sprite, otherSprite) {
     otherSprite.destroy(effects.disintegrate, 100)
     sprite.destroy()
-    info.changeScoreBy(1)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     ALaser = sprites.createProjectileFromSprite(img`
@@ -46,15 +45,21 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     ALaser.y += 3
     pause(200)
 })
+function Call_MiniRock (x: number, y: number) {
+    MiniRock = sprites.createProjectileFromSide(assets.image`MiniAsteriod`, randint(-50, 50), 50)
+    MiniRock.setKind(SpriteKind.MiniRocks)
+    MiniRock.setPosition(x, y)
+    MiniRock.setBounceOnWall(true)
+}
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Asteroid, function (sprite, otherSprite) {
     otherSprite.destroy(effects.disintegrate, 100)
     sprite.destroy()
+    y = otherSprite.y
+    x = otherSprite.x
     info.changeScoreBy(1)
-    if (Math.percentChance(50)) {
-        MiniRock = sprites.createProjectileFromSprite(assets.image`MiniAsteriod`, Asteroid, randint(-50, 50), 50)
-        MiniRock = sprites.createProjectileFromSprite(assets.image`MiniAsteriod`, Asteroid, randint(-50, 50), 50)
-        MiniRock.setKind(SpriteKind.MiniRocks)
-        MiniRock.setBounceOnWall(true)
+    if (Math.percentChance(20)) {
+        Call_MiniRock(x, y)
+        Call_MiniRock(x, y)
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.MiniRocks, function (sprite, otherSprite) {
@@ -67,16 +72,12 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Asteroid, function (sprite, othe
     sprite.startEffect(effects.fountain, 500)
     otherSprite.destroy(effects.disintegrate, 100)
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Player, function (sprite, otherSprite) {
-    y = 0
-    x = 0
-})
 sprites.onCreated(SpriteKind.Player, function (sprite) {
     controller.moveSprite(sprite, 100, 100)
 })
-let x = 0
-let y = 0
 let Asteroid: Sprite = null
+let y = 0
+let x = 0
 let MiniRock: Sprite = null
 let ALaser: Sprite = null
 let FirstShip: Sprite = null
@@ -85,6 +86,9 @@ FirstShip.setStayInScreen(true)
 effects.starField.startScreenEffect()
 info.setScore(0)
 info.setLife(10)
+game.onUpdate(function () {
+	
+})
 forever(function () {
     if (info.score() < 50) {
         Asteroid = sprites.createProjectileFromSide(assets.image`Asteroid 1`, 0, randint(20, 50))
