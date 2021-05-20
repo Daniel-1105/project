@@ -2,30 +2,23 @@ namespace SpriteKind {
     export const Player2 = SpriteKind.create()
     export const Asteroid = SpriteKind.create()
     export const MiniRocks = SpriteKind.create()
+    export const Secondary = SpriteKind.create()
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    mySprite = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . b b b b b a b b b b b . . . 
-        . . b b b b a c a b b b b . . . 
-        . . b b b a a c a a b b b . . . 
-        . . b b b a c c c a b b b . . . 
-        . . b b a a c c c a a b b . . . 
-        . . b b a c c c c c a b b . . . 
-        . . b b a c c c c c a b b . . . 
-        . . b a a c c c c c a b b . . . 
-        . . b a a . . . . . a a b . . . 
-        . . b a . . . . . . . a b . . . 
-        . . . a . . . . . . . a . . . . 
-        . . . a . . . . . . . a . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Player)
+    if (info.score() >= 50) {
+        if (game.runtime() >= lastfired + 5000) {
+            Secondary = sprites.createProjectileFromSprite(assets.image`Secondary Attack`, FirstShip, 0, -50)
+            Secondary.setKind(SpriteKind.Secondary)
+            lastfired = game.runtime()
+        }
+    }
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.MiniRocks, function (sprite, otherSprite) {
     otherSprite.destroy(effects.disintegrate, 100)
     sprite.destroy()
+})
+sprites.onOverlap(SpriteKind.Secondary, SpriteKind.MiniRocks, function (sprite, otherSprite) {
+    otherSprite.destroy(effects.disintegrate, 100)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     ALaser = sprites.createProjectileFromSprite(img`
@@ -93,27 +86,26 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.MiniRocks, function (sprite, oth
     sprite.startEffect(effects.fountain, 500)
     otherSprite.destroy(effects.disintegrate, 100)
 })
-controller.B.onEvent(ControllerButtonEvent.Repeated, function () {
-    LASERBEAM = sprites.createProjectileFromSprite(assets.image`LASERBEAM`, FirstShip, 0, 0)
-})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Asteroid, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
     sprite.startEffect(effects.fountain, 500)
+    otherSprite.destroy(effects.disintegrate, 100)
+})
+sprites.onOverlap(SpriteKind.Secondary, SpriteKind.Asteroid, function (sprite, otherSprite) {
     otherSprite.destroy(effects.disintegrate, 100)
 })
 sprites.onCreated(SpriteKind.Player, function (sprite) {
     controller.moveSprite(sprite, 100, 100)
 })
 let Asteroid: Sprite = null
-let LASERBEAM: Sprite = null
 let y = 0
 let x = 0
 let MiniRock: Sprite = null
 let ALaser: Sprite = null
-let mySprite: Sprite = null
+let Secondary: Sprite = null
 let FirstShip: Sprite = null
-game.splash("Destroy the asteroids and stay alive!!!")
-game.splash("A - Primary fire/B - Secondary", "WASD to move.")
+let lastfired = 0
+lastfired = game.runtime()
 FirstShip = sprites.create(assets.image`spaceship`, SpriteKind.Player)
 FirstShip.setStayInScreen(true)
 effects.starField.startScreenEffect()
@@ -168,12 +160,13 @@ game.onUpdate(function () {
     }
 })
 forever(function () {
-    if (info.score() < 50) {
+    if (info.score() < 400) {
         Asteroid = sprites.createProjectileFromSide(assets.image`Asteroid 1`, 0, randint(20, 50))
         Asteroid.x = randint(10, 150)
         Asteroid.setKind(SpriteKind.Asteroid)
         pause(500)
     } else {
-    	
+        game.splash("You made it!!!")
+        game.splash("Would you like to keep going?", "A - GO! / B - Stop!")
     }
 })
