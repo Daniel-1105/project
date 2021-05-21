@@ -59,7 +59,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (info.score() >= 50) {
         pause(200)
     } else {
-        pause(500)
+        pause(400)
     }
 })
 function Call_MiniRock (x: number, y: number) {
@@ -107,11 +107,19 @@ let FirstShip: Sprite = null
 let lastfired = 0
 lastfired = game.runtime()
 FirstShip = sprites.create(assets.image`spaceship`, SpriteKind.Player)
+game.splash("Make Your Way Through Space, Traveler.")
+game.splash("But Beware We Have Heard Reports of an Asteroid Field Close By!")
 FirstShip.setStayInScreen(true)
 effects.starField.startScreenEffect()
 info.setScore(0)
 info.setLife(5)
 game.onUpdate(function () {
+    if (game.runtime() > 2000) {
+        if (true) {
+        	
+        }
+        game.splash("Watch Out!!!")
+    }
     if (info.score() >= 50) {
         ALaser.setImage(img`
             ................................
@@ -165,8 +173,5 @@ forever(function () {
         Asteroid.x = randint(10, 150)
         Asteroid.setKind(SpriteKind.Asteroid)
         pause(500)
-    } else {
-        game.splash("You made it!!!")
-        game.splash("Would you like to keep going?", "A - GO! / B - Stop!")
     }
 })
