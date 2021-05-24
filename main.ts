@@ -10,15 +10,18 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             Secondary = sprites.createProjectileFromSprite(assets.image`Secondary Attack`, FirstShip, 0, -50)
             Secondary.setKind(SpriteKind.Secondary)
             lastfired = game.runtime()
+            music.zapped.play()
         }
     }
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.MiniRocks, function (sprite, otherSprite) {
     otherSprite.destroy(effects.disintegrate, 100)
     sprite.destroy()
+    music.smallCrash.play()
 })
 sprites.onOverlap(SpriteKind.Secondary, SpriteKind.MiniRocks, function (sprite, otherSprite) {
     otherSprite.destroy(effects.disintegrate, 100)
+    music.smallCrash.play()
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     ALaser = sprites.createProjectileFromSprite(img`
@@ -56,6 +59,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         ................................
         `, FirstShip, 0, -60)
     ALaser.y += 3
+    music.pewPew.play()
     if (info.score() >= 50) {
         pause(200)
     } else {
@@ -71,6 +75,7 @@ function Call_MiniRock (x: number, y: number) {
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Asteroid, function (sprite, otherSprite) {
     otherSprite.destroy(effects.disintegrate, 100)
     sprite.destroy()
+    music.bigCrash.play()
     y = otherSprite.y
     x = otherSprite.x
     info.changeScoreBy(1)
@@ -85,14 +90,17 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.MiniRocks, function (sprite, oth
     info.changeLifeBy(-1)
     sprite.startEffect(effects.fountain, 500)
     otherSprite.destroy(effects.disintegrate, 100)
+    music.playMelody("D - D - - - - - ", 500)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Asteroid, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
     sprite.startEffect(effects.fountain, 500)
     otherSprite.destroy(effects.disintegrate, 100)
+    music.playMelody("D - D - - - - - ", 500)
 })
 sprites.onOverlap(SpriteKind.Secondary, SpriteKind.Asteroid, function (sprite, otherSprite) {
     otherSprite.destroy(effects.disintegrate, 100)
+    music.bigCrash.play()
 })
 sprites.onCreated(SpriteKind.Player, function (sprite) {
     controller.moveSprite(sprite, 100, 100)
@@ -107,18 +115,19 @@ let FirstShip: Sprite = null
 let lastfired = 0
 lastfired = game.runtime()
 FirstShip = sprites.create(assets.image`spaceship`, SpriteKind.Player)
-game.splash("Make Your Way Through Space, Traveler.")
-game.splash("But Beware We Have Heard Reports of an Asteroid Field Close By!")
+FirstShip.setPosition(78, 105)
+game.showLongText("Make Your Way Through Space, Traveler.", DialogLayout.Top)
+game.showLongText("But Beware We Have Heard Reports of an Asteroid Field Close By!", DialogLayout.Top)
+pause(1000)
+game.showLongText("Use WASD to move. SPACEBAR/A - Primary E/B - Secondary ", DialogLayout.Top)
+game.showLongText("Watch Out!!", DialogLayout.Top)
 FirstShip.setStayInScreen(true)
 effects.starField.startScreenEffect()
 info.setScore(0)
 info.setLife(5)
 game.onUpdate(function () {
     if (game.runtime() > 2000) {
-        if (true) {
-        	
-        }
-        game.splash("Watch Out!!!")
+    	
     }
     if (info.score() >= 50) {
         ALaser.setImage(img`
@@ -168,10 +177,8 @@ game.onUpdate(function () {
     }
 })
 forever(function () {
-    if (info.score() < 400) {
-        Asteroid = sprites.createProjectileFromSide(assets.image`Asteroid 1`, 0, randint(20, 50))
-        Asteroid.x = randint(10, 150)
-        Asteroid.setKind(SpriteKind.Asteroid)
-        pause(500)
-    }
+    Asteroid = sprites.createProjectileFromSide(assets.image`Asteroid 1`, 0, randint(20, 50))
+    Asteroid.x = randint(10, 150)
+    Asteroid.setKind(SpriteKind.Asteroid)
+    pause(500)
 })
