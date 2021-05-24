@@ -80,7 +80,15 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Asteroid, function (sprite, 
     x = otherSprite.x
     info.changeScoreBy(1)
     if (info.score() >= 35) {
-        if (Math.percentChance(20)) {
+        if (info.score() >= 35) {
+            if (Math.percentChance(20)) {
+                Call_MiniRock(x, y)
+                Call_MiniRock(x, y)
+            }
+        }
+    }
+    if (info.score() >= 150) {
+        if (Math.percentChance(35)) {
             Call_MiniRock(x, y)
             Call_MiniRock(x, y)
         }
@@ -126,9 +134,6 @@ effects.starField.startScreenEffect()
 info.setScore(0)
 info.setLife(5)
 game.onUpdate(function () {
-    if (game.runtime() > 2000) {
-    	
-    }
     if (info.score() >= 50) {
         ALaser.setImage(img`
             ................................
